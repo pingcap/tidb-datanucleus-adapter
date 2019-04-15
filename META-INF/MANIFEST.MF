@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DataNucleus RDBMS
+Bundle-SymbolicName: com.pingcap.tidb;singleton:=true
+Bundle-Vendor: PingCAP
+Bundle-Version: 1.2.0.b2
+Bundle-Localization: plugin
+Require-Bundle: com.pingcap

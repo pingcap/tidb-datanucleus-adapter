@@ -1,0 +1,167 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.pingcap.tidb</groupId>
+  <artifactId>tidb-datanucleus-adapter</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0</version>
+  <name>TiDB's datanucleus adapter</name>
+  <url>http://github.copm/pingcap/tidb-datanucleuus-adapter</url>
+
+  <description>TiDB's own datanucleus adapter to override MySQLAdapter's behavior</description>
+  <licenses>
+    <license>
+      <name>Apache 2.0 License</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <organization>
+    <name>PingCAP</name>
+  </organization>
+
+  <developers>
+    <developer>
+      <name>Zhexuan Yang</name>
+      <email>yangzhexuan@pingcap.com</email>
+      <organization>PingCAP</organization>
+      <organizationUrl>https://www.pingcap.com</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/pingcap/tidb-datanucleus-adapter.git</connection>
+    <developerConnection>scm:git:ssh://github.com:pingcap/tidb-datanucleus-adapter.git</developerConnection>
+    <url>https://github.com/pingcap/tidb-datanucleus-adapter/tree/master</url>
+  </scm>
+
+  <properties>
+    <gpg.skip>false</gpg.skip>
+    <javadoc.skip>false</javadoc.skip>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.datanucleus/datanucleus-rdbms -->
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-core</artifactId>
+      <version>3.2.10</version>
+    </dependency>
+    <dependency>
+      <groupId>org.datanucleus</groupId>
+      <artifactId>datanucleus-rdbms</artifactId>
+      <version>3.2.9</version>
+    </dependency>
+  </dependencies>
+
+  <distributionManagement>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+  </distributionManagement>
+
+  <build>
+    <plugins>
+      <!-- Source Plug-in -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Clean Plug-in -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.4.1</version>
+      </plugin>
+      <!-- Assembly Plug-in -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+        <executions>
+          <execution>
+            <id>assemble-all</id>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <configuration>
+          <skip>${javadoc.skip}</skip>
+        </configuration>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration> <!-- add this to disable checking -->
+              <additionalparam>-Xdoclint:none</additionalparam>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!--GPG Signed Components-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <version>1.5</version>
+        <configuration>
+          <keyname>Zhexuan Yang</keyname>
+          <skip>${gpg.skip}</skip>
+        </configuration>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Nexus staging maven plugin -->
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.7</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <!--<autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
